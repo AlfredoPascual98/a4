@@ -6,27 +6,25 @@ namespace Rentit;
 
 class Request
 {
-    private  $controller;
-    private  $action;
-    private  $method;
-    private  $params;
-
+    private $controller;
+    private $action;
+    private $method;
+    private $params;
 
     protected $arrURI;
+
     function __construct()
     {
         $requestString=htmlentities($_SERVER['REQUEST_URI']);
         $this->arrURI=explode('/',$requestString);
         array_shift($this->arrURI);
         $this->extractURI();
-        var_dump($this->getController());
-        var_dump($this->getAction());
-        var_dump($this->getParams());
-        die;
+
     }
-private function extractURi(){
-        $length=count($this->arrURI); //sacar longitud
-        switch ($length){
+
+    private function extractURI(){
+        $length=count($this->arrURI);
+        switch($length){
             case 1:
                 if($this->arrURI[0]==""){
                     $this->setController('default');
@@ -34,6 +32,7 @@ private function extractURi(){
                     $this->setController($this->arrURI[0]);
                 }
                 $this->setAction('index');
+
                 break;
             case 2:
                 $this->setController($this->arrURI[0]);
@@ -49,26 +48,15 @@ private function extractURi(){
                 $this->setAction($this->arrURI[1]);
                 //set params
                 $this->Params();
-                /*
-                $this->setController($this->arrURI[0]);
-                $this->setAction($this->arrURI[1]);
-                //$this->setParams($this->arrURI[]);
-                for ($c=0; $c<$length; $c++){
-                    if ($length%2==0){
-                        $this->setParams($this->arrURI[$c]);
-                    }else{
-                        $this->setParams($this->arrURI[$c]);
-                    }
-                }*/
                 break;
         }
         $this->setMethod(htmlentities($_SERVER['REQUEST_METHOD']));
-}
 
-private function Params(){
+    }
+    private function Params(){
         if($this->arrURI!=null){
             $arr_length=count($this->arrURI);
-            if($arr_length>2){
+            if ($arr_length>2){
                 array_shift($this->arrURI);
                 array_shift($this->arrURI);
                 $arr_length=count($this->arrURI);
@@ -80,15 +68,15 @@ private function Params(){
                             $arr_v[]=$this->arrURI[$i];
                         }
                     }
-                    $res=array_combine($arr_k, $arr_v);
+                    $res=array_combine($arr_k,$arr_v);
                     $this->setParams($res);
                 }else{
-                    //array asociativos no disponible
+                    //array asociativo no dispnible
                     $this->setParams(null);
                 }
             }
         }
-}
+    }
     /**
      * @return mixed
      */
@@ -126,7 +114,7 @@ private function Params(){
      */
     public function getMethod()
     {
-        return $this->method;
+        return htmlentities($_SERVER['REQUEST_METHOD']);
     }
 
     /**
@@ -148,9 +136,28 @@ private function Params(){
     /**
      * @param mixed $params
      */
-    public function setParams($params): void
+    public function setParams(): void
     {
-        $this->params = $params;
+        $length=count($this->arrURI);
+        if($length>4){
+
+        }
+
+        if($length%2==0){
+            for($i=0;$i<$length;$i++){
+                if($i%2==0){
+                    $arr_k[]=$this->arrURI[$i];
+                }
+                if($i%2!=0){
+                    $arr_v[]=$this->arrURI[$i];
+                }
+            }
+            $res=array_combine($arr_k,$arr_v);
+        }
+        $this->params=$res;
     }
+
+
+
 
 }
