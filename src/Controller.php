@@ -4,21 +4,17 @@
 namespace Rentit;
 
 
-abstract class Controller implements View
+abstract class Controller implements View,Model
 {
-
     protected $request;
-   function __construct($request)
-   {
-       $this->request=$request;
-   }
-
+    function __construct($request)
+    {
+        $this->request=$request;
+    }
     function error(){
-    echo 'Metodo no existe';
-}
-
-/**********/
-    function render(array $dataview, string $template=null)
+        throw new \Exception("[ERROR::]:Non existent method");
+    }
+    public function render(array $dataview=null,string $template=null)
     {
         if ($dataview) {
             extract($dataview);
@@ -27,5 +23,9 @@ abstract class Controller implements View
                 include 'templates/' . $template . '.tpl.php';
             }
         }
+    }
+    function getDB(){
+        $db=DB::singleton();
+        return $db;
     }
 }

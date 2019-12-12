@@ -3,7 +3,7 @@
 
 namespace Rentit\Controllers;
 
-use Rentit\Controller;
+//use Rentit\Controller;
 
 final class DefaultController extends Controller
 {
@@ -15,10 +15,12 @@ final class DefaultController extends Controller
         //$this->getDB();
         $this->render($data);
     }
+    /*
     public function getResults(){
 
     }
     public function render($array_datos){
         echo $algo(datos);
     }
+    */
 }
